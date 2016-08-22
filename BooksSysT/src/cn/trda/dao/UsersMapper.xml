@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.trda.dao.UsersMapper">
+<!--登录   -->
+<select id="login" parameterType="Users" resultType="Users">
+	select * from users where user_code=#{user_code} and password=#{password}
+</select>
+<!-- 注册 -->
+<insert id="register" parameterType="Users" >
+	insert into users (user_code,password,gender,email,register_time,last_logintime)
+	values(#{user_code},#{password},#{gender},#{email},#{register_time},#{last_logintime})
+</insert>
+
+<update id="loginTime" parameterType="Users">
+	update users set last_logintime=#{last_logintime} where user_code=#{user_code}
+</update>
+
+</mapper>

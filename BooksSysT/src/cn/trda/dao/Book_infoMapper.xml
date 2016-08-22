@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.trda.dao.Book_infoMapper">
+<!-- 获得总条数 -->
+<select id="getTotalRecording" parameterType="Book_info" resultType="int">
+	select count(*) from book_info bi,book_type bt 
+	<where>
+		<if test="book_name!=null and book_name!='' ">
+		 	bi.book_name=#{book_name}
+		</if>
+		<!-- and type_name!='' -->
+		<if test="type_name!=null and type_name!='' ">
+		and bt.type_name=#{type_name}	
+		</if>
+		<if test="is_borrow!=2">
+		  and  bi.is_borrow=#{is_borrow}	
+		</if>
+		and bi.book_type=bt.id
+	</where>
+</select>
+
+<!-- 获得booklist -->
+<select id="getBookList" parameterType="Book_info" resultType="Book_info">
+	select bi.*,bt.type_name from book_info bi,book_type bt 
+	<where>
+		<if test="book_name!=null and book_name!=''">
+		 	bi.book_name=#{book_name}
+		</if>
+		<if test="type_name!=null and type_name!=''">
+		and bt.type_name=#{type_name}	
+		</if>
+		<if test="is_borrow!=2">
+		  and  bi.is_borrow=#{is_borrow}	
+		</if>
+		and bi.book_type=bt.id
+	</where>
+	limit #{startNum},3
+</select>
+
+<!-- 借阅 -->
+<update id="updateIs_borrow" parameterType="int">
+ update book_info set is_borrow=1 where book_id=#{id} 
+</update>
+
+
+</mapper>
